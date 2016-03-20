@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
 
         username = getUsername();
-        if (username == null) {
-            username = "Anonymous";
-        }
 
         Firebase.setAndroidContext(this);
         rootRef = new Firebase("https://vivid-inferno-572.firebaseio.com");
@@ -61,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         String text = mEditText.getText().toString();
         com.example.android.chilim.ChatMessage message = new com.example.android.chilim.ChatMessage(username, text);
         rootRef.push().setValue(message);
-        //Toast.makeText(MainActivity.this, username, Toast.LENGTH_SHORT).show();
         mEditText.setText("");
     }
 
@@ -72,26 +68,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getUsername() {
-        AccountManager manager = AccountManager.get(this);
-        Account[] accounts = manager.getAccountsByType("com.google");
-        List<String> possibleEmails = new LinkedList<String>();
+        AccountManager m = AccountManager.get(this);
+        Account[] accounts = m.getAccountsByType("com.google");
 
-        for (Account account : accounts) {
-            // TODO: Check possibleEmail against an email regex or treat
-            // account.name as an email address only for certain account.type
-            // values.
-            possibleEmails.add(account.name);
+        if  (accounts.length > 0)
+        {
+            return accounts[0].name;
         }
 
-        if (!possibleEmails.isEmpty() && possibleEmails.get(0) != null) {
-            String email = possibleEmails.get(0);
-            String[] parts = email.split("@");
-            if (parts.length > 0 && parts[0] != null)
-                return parts[0];
-            else
-                return null;
-        } else
-            return null;
+        return "Anonymous";
     }
 
 }

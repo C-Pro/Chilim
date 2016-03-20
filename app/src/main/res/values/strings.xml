@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Chilim</string>
+    <string name="send">Send</string>
+    <string name="messageHint">Your message</string>
 </resources>
